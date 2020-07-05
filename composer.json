@@ -10,9 +10,16 @@
     }],
     "autoload": {
         "psr-4": {
-            "pusher\\": "src/"
+            "myPusher\\Pusher\\": "src/"
         }
     },
     "minimum-stability": "dev",
-    "license": "MIT"
+    "license": "MIT",
+    "extra": {
+        "laravel" : {
+            "providers" : [
+                "myPusher\\Pusher\\PusherServiceProvider"
+            ]
+        }
+    }
 }
