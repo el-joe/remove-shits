@@ -10,7 +10,7 @@
     }],
     "autoload": {
         "psr-4": {
-            "myPusher\\Pusher\\": "src/"
+            "PusherJ\\": "src/"
         }
     },
     "minimum-stability": "dev",
@@ -18,7 +18,7 @@
     "extra": {
         "laravel" : {
             "providers" : [
-                "myPusher\\Pusher\\PusherServiceProvider"
+                "PusherJ\\PusherServiceProvider"
             ]
         }
     }
