@@ -1,6 +1,6 @@
 <?php
 
-namespace myPusher\Pusher;
+namespace PusherJ;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
