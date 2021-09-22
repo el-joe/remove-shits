@@ -6,6 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'myPusher\\Pusher\\' => array($baseDir . '/src'),
-    'App\\' => array($baseDir . '/app'),
+    'PusherJ\\' => array($baseDir . '/src'),
 );
