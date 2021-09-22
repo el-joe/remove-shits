@@ -1,6 +1,6 @@
 <?php
 
-namespace myPusher\Pusher;
+namespace PusherJ;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -13,7 +13,7 @@ class PusherServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->make('myPusher\Pusher\PusherController'); // <- when create new controller
+        $this->app->make('PusherJ\PusherController'); // <- when create new controller
     }
 
     /**
