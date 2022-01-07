@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Exception;
+use ZipArchive;
 
 class PusherController extends Controller
 {
